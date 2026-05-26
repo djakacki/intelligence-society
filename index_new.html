@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intelligence & Society — Program Architecture</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.29.0/tabler-icons.min.css">
+<style>
+:root {
+  --bg-p:#fff; --bg-s:#f5f5f0; --bg-t:#eeede8;
+  --tx-p:#1a1a18; --tx-s:#5f5e5a; --tx-t:#888780;
+  --bd-t:rgba(0,0,0,.12); --bd-s:rgba(0,0,0,.25); --bd-p:rgba(0,0,0,.4);
+  --bg-g:#EAF3DE; --tx-g:#27500A; --bd-g:#C0DD97;
+  --bg-b:#E6F1FB; --tx-b:#0C447C; --bd-b:#B5D4F4;
+  --bg-a:#FAEEDA; --tx-a:#633806; --bd-a:#FAC775;
+  --bg-pu:#EEEDFE; --tx-pu:#3C3489; --bd-pu:#CECBF6;
+  --r-md:8px; --r-lg:12px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg-p:#1c1c1a; --bg-s:#252522; --bg-t:#2e2e2b;
+  --tx-p:#e8e6df; --tx-s:#a8a69f; --tx-t:#6e6d67;
+  --bd-t:rgba(255,255,255,.1); --bd-s:rgba(255,255,255,.2); --bd-p:rgba(255,255,255,.35);
+  --bg-g:#27500A; --tx-g:#C0DD97; --bd-g:#3B6D11;
+  --bg-b:#0C447C; --tx-b:#B5D4F4; --bd-b:#185FA5;
+  --bg-a:#633806; --tx-a:#FAC775; --bd-a:#854F0B;
+  --bg-pu:#26215C; --tx-pu:#CECBF6; --bd-pu:#3C3489;
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-t);color:var(--tx-p);line-height:1.5;padding:2rem}
+.wrap{max-width:860px;margin:0 auto}
+.sec-label{font-size:11px;letter-spacing:.08em;color:var(--tx-t);margin-bottom:8px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px}
+.bg{background:var(--bg-g);color:var(--tx-g);border:0.5px solid var(--bd-g)}
+.bb{background:var(--bg-b);color:var(--tx-b);border:0.5px solid var(--bd-b)}
+.ba{background:var(--bg-a);color:var(--tx-a);border:0.5px solid var(--bd-a)}
+.bp{background:var(--bg-pu);color:var(--tx-pu);border:0.5px solid var(--bd-pu)}
+.bz{background:var(--bg-s);color:var(--tx-s);border:0.5px solid var(--bd-t)}
+.sm{font-size:10px;padding:1px 6px}
+.pw-card{border:0.5px solid var(--bd-t);border-radius:var(--r-md);background:var(--bg-p);overflow:hidden;cursor:pointer;transition:border-color .15s;margin-bottom:6px}
+.pw-card:hover{border-color:var(--bd-s)}
+.pw-card.active{border-color:var(--bd-p)}
+.pw-detail{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.pw-detail.open{max-height:380px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div style="margin-bottom:2rem">
+  <div style="font-size:11px;letter-spacing:.1em;color:var(--tx-t);margin-bottom:6px">Working paper · Bucknell University </div>
+  <div style="font-size:28px;font-weight:500;letter-spacing:-.02em;margin-bottom:4px">Intelligence & Society</div>
+  <div style="font-size:15px;color:var(--tx-s);margin-bottom:10px">Critical and Applied Technology Studies at Bucknell</div>
+  <div style="font-size:13px;color:var(--tx-t);line-height:1.6;max-width:620px">A cross-collegiate program uniting Arts & Sciences, Engineering, and Management — preparing students to build, critique, and lead with AI and emerging technologies.</div>
+</div>
+
+<div class="sec-label">Three curricular pillars</div>
+<div class="grid3">
+
+  <div style="background:var(--bg-g);border:0.5px solid var(--bd-g);border-radius:var(--r-md);padding:12px 14px">
+    <div style="font-size:10px;letter-spacing:.07em;color:var(--tx-g);margin-bottom:4px">Arts & Sciences</div>
+    <div style="font-size:13px;font-weight:500;margin-bottom:6px">Digital Humanities</div>
+    <span class="badge bg sm" style="display:inline-block;margin-bottom:8px">Existing major/minor</span>
+    <div style="border-top:0.5px solid var(--bd-g);padding-top:8px;font-size:11px;color:var(--tx-s);line-height:1.9">Cultural analytics<br>Critical theory & ethics<br>Digital archives & media<br>Computational humanities<br>Human-computer studies</div>
+  </div>
+
+  <div style="background:var(--bg-b);border:0.5px solid var(--bd-b);border-radius:var(--r-md);padding:12px 14px">
+    <div style="font-size:10px;letter-spacing:.07em;color:var(--tx-b);margin-bottom:4px">Engineering → all colleges</div>
+    <div style="font-size:13px;font-weight:500;margin-bottom:4px">Data Science</div>
+    <div style="display:flex;align-items:center;gap:5px;margin-bottom:8px">
+      <!--<span style="font-size:10px;color:var(--tx-t);text-decoration:line-through">Currently limited co-major</span>
+      <i class="ti ti-arrow-right" style="font-size:11px;color:var(--tx-b)"></i>-->
+      <span class="badge bb sm">Currently limited co-major</span>
+    </div>
+    <div style="border-top:0.5px solid var(--bd-b);padding-top:8px;font-size:11px;color:var(--tx-s);line-height:1.9">Statistical foundations<br>Machine learning & AI<br>Data visualization<br>Social & humanities data<br>Business analytics track</div>
+  </div>
+
+  <div style="background:var(--bg-pu);border:0.5px solid var(--bd-pu);border-radius:var(--r-md);padding:12px 14px">
+    <div style="font-size:10px;letter-spacing:.07em;color:var(--tx-pu);margin-bottom:4px">Cross-college</div>
+    <div style="font-size:13px;font-weight:500;margin-bottom:6px">Artificial Intelligence</div>
+    <span class="badge bp sm" style="display:inline-block;margin-bottom:8px">Interdisciplinary minor (under review)</span>
+    <div style="border-top:0.5px solid var(--bd-pu);padding-top:8px;font-size:11px;color:var(--tx-s);line-height:1.9">Foundations of AI/ML<br>Ethics of intelligent systems<br>Applied AI practicum<br>AI governance & policy<br>Depth or breadth tracks</div>
+  </div>
+
+</div>
+<!--
+<div style="border:0.5px solid var(--bd-b);border-radius:var(--r-md);padding:8px 12px;margin-bottom:1.25rem;display:flex;gap:10px;align-items:flex-start">
+  <i class="ti ti-info-circle" style="color:var(--tx-b);font-size:15px;flex-shrink:0;margin-top:1px"></i>
+  <div>
+    <div style="font-size:12px;font-weight:500;margin-bottom:2px">Key program action: DS major expansion</div>
+    <div style="font-size:12px;color:var(--tx-s);line-height:1.5">Opening the DS major beyond Math/CS is a separate curricular approval — but it is the structural change that unlocks the Data Strategist and Innovation Designer pathways at full depth, and gives A&S and Management students a DS credential for the first time.</div>
+  </div>
+</div>
+-->
+<!--
+<div class="sec-label">Co-curricular anchor</div>
+<div style="border:0.5px dashed var(--bd-s);border-radius:var(--r-md);padding:12px 14px;margin-bottom:1.25rem;background:var(--bg-s)">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+    <div>
+      <div style="font-size:13px;font-weight:500">Dominguez Center for Data Science</div>
+      <div style="font-size:12px;color:var(--tx-s);margin-top:2px">Interdisciplinary center — all three colleges</div>
+    </div>
+    <div style="display:flex;gap:6px"><span class="badge bz">Co-curricular</span><span class="badge bz">Not a curricular entity</span></div>
+  </div>
+
+  <div class="grid2">
+    <div>
+      <div style="font-size:10px;letter-spacing:.07em;color:var(--tx-t);margin-bottom:6px">What the DCDS brings</div>
+      <div style="font-size:12px;color:var(--tx-s);line-height:1.9">Applied research projects & data labs<br>Industry partnerships & practitioner access<br>Speaker series & public symposia<br>Cross-college student community<br>Natural home for the Emerging Tech Studio</div>
+    </div>
+    <div>
+      <div style="font-size:10px;letter-spacing:.07em;color:var(--tx-t);margin-bottom:6px">The director's structural role</div>
+      <div style="font-size:12px;color:var(--tx-s);line-height:1.6">Active involvement in curricular development creates a direct bridge — center resources and industry relationships become woven into the academic program rather than running alongside it. A rare structural advantage worth naming explicitly in the proposal.</div>
+    </div>
+  </div>
+</div>
+-->
+<div class="sec-label">Student pathways — click any track to explore</div>
+<div id="pw"></div>
+<!--
+<div class="sec-label" style="margin-top:1.5rem">Founding team — three co-equals</div>
+<div class="grid3" style="margin-bottom:2rem">
+
+  <div style="border:0.5px solid var(--bd-g);border-radius:var(--r-md);padding:12px 14px;background:var(--bg-p)">
+    <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-g);display:flex;align-items:center;justify-content:center;margin-bottom:8px"><i class="ti ti-books" style="font-size:15px;color:var(--tx-g)"></i></div>
+    <div style="font-size:13px;font-weight:500;margin-bottom:2px">DH practitioner</div>
+    <div style="font-size:11px;color:var(--tx-s);margin-bottom:8px">Comparative & Digital Humanities</div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <span class="badge bg" style="align-self:flex-start">Conceptual architecture</span>
+      <span class="badge bg" style="align-self:flex-start">Ethics framework</span>
+      <span class="badge bg" style="align-self:flex-start">Stakeholder strategy</span>
+    </div>
+  </div>
+
+  <div style="border:0.5px solid var(--bd-b);border-radius:var(--r-md);padding:12px 14px;background:var(--bg-p)">
+    <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-b);display:flex;align-items:center;justify-content:center;margin-bottom:8px"><i class="ti ti-cpu" style="font-size:15px;color:var(--tx-b)"></i></div>
+    <div style="font-size:13px;font-weight:500;margin-bottom:2px">CS/AI practitioner</div>
+    <div style="font-size:11px;color:var(--tx-s);margin-bottom:8px">Computer Science & AI</div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <span class="badge bb" style="align-self:flex-start">AI minor design</span>
+      <span class="badge bb" style="align-self:flex-start">Technical rigor</span>
+      <span class="badge bb" style="align-self:flex-start">Practitioner pathway</span>
+    </div>
+  </div>
+
+  <div style="border:0.5px solid var(--bd-a);border-radius:var(--r-md);padding:12px 14px;background:var(--bg-p)">
+    <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-a);display:flex;align-items:center;justify-content:center;margin-bottom:8px"><i class="ti ti-database" style="font-size:15px;color:var(--tx-a)"></i></div>
+    <div style="font-size:13px;font-weight:500;margin-bottom:2px">DS practitioner</div>
+    <div style="font-size:11px;color:var(--tx-s);margin-bottom:8px">Data Science & DCDS</div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <span class="badge ba" style="align-self:flex-start">DS major expansion</span>
+      <span class="badge ba" style="align-self:flex-start">DCDS bridge</span>
+      <span class="badge ba" style="align-self:flex-start">Co-curricular design</span>
+    </div>
+  </div>
+-->
+</div>
+
+<div style="margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--bd-t);font-size:11px;color:var(--tx-t);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+  <span>Intelligence & Society: Critical and Applied Technology Studies at Bucknell — working paper</span>
+  <span>Confidential</span>
+</div>
+
+</div>
+<script>
+const pathways=[
+  {label:'The humanist-technologist',tagline:'Rooted in Digital Humanities — oriented toward AI and society',colleges:['A&S','Eng'],bar:'#EAF3DE',barBd:'#C0DD97',anchor:'Digital Humanities (major)',add:'AI minor + data literacy electives',courses:['Digital Humanities core','AI & Society','Critical Algorithm Studies','Human-Computer Interaction','AI Ethics Seminar','Cross-College Capstone'],careers:['Technology ethics','UX research','Digital policy','Content strategy','Ed-tech design']},
+  {label:'The data strategist',tagline:'Rooted in Data Science — translating data into decisions and business value',colleges:['Eng','Mgmt'],bar:'#E6F1FB',barBd:'#B5D4F4',anchor:'Data Science (major)',add:'AI minor + management electives',courses:['Data Science core','Business Analytics','Machine Learning','Strategy & Technology','AI for Decision-Making','Cross-College Capstone'],careers:['Data science','Analytics consulting','Product analytics','FinTech','Operations research']},
+  {label:'The AI practitioner',tagline:'Rooted in CS/Engineering — building intelligent systems from first principles',colleges:['Eng'],bar:'#E6F1FB',barBd:'#B5D4F4',anchor:'Computer Science or Engineering (major)',add:'AI minor (depth track) + applied math',courses:['Programming & Algorithms','Machine Learning I & II','Deep Learning','AI Systems Engineering','Responsible AI','Cross-College Capstone'],careers:['AI engineer','ML researcher','Robotics','Autonomous systems','AI product development']},
+  {label:'The innovation designer',tagline:'Rooted in Management — shaping technology ventures and organizational strategy',colleges:['Mgmt','Eng'],bar:'#FAEEDA',barBd:'#FAC775',anchor:'Management (major)',add:'AI minor + design thinking electives',courses:['Management core','Technology Strategy','Design Thinking','Digital Transformation','AI for Managers','Cross-College Capstone'],careers:['Product manager','Innovation consultant','Startup founder','Chief digital officer','VC analyst']},
+  {label:'The tech ethicist & policy analyst',tagline:'Rooted in Philosophy/STS — shaping AI governance and public interest technology',colleges:['A&S','Mgmt'],bar:'#EAF3DE',barBd:'#C0DD97',anchor:'Philosophy, STS, or Digital Humanities (major)',add:'AI minor + policy & law electives',courses:['Ethics & Technology','Science & Technology Studies','AI Governance','Data Privacy & Law','Policy Lab Practicum','Cross-College Capstone'],careers:['Policy analyst','NGO tech lead','Regulatory affairs','Tech journalism','AI governance']}
+];
+const c=document.getElementById('pw');
+c.innerHTML=pathways.map((p,i)=>`
+<div class="pw-card" tabindex="0" role="button" aria-expanded="false" data-i="${i}">
+  <div style="display:flex;align-items:center;gap:10px;padding:10px 14px">
+    <div style="width:4px;height:38px;border-radius:2px;background:${p.bar};border:0.5px solid ${p.barBd};flex-shrink:0"></div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:13px;font-weight:500">${p.label}</div>
+      <div style="font-size:12px;color:var(--tx-s);margin-top:2px">${p.tagline}</div>
+    </div>
+    <div style="display:flex;gap:4px;flex-shrink:0">${p.colleges.map(x=>`<span class="badge bz" style="font-size:10px">${x}</span>`).join('')}</div>
+    <i class="ti ti-chevron-down chv" style="font-size:16px;color:var(--tx-t);flex-shrink:0;transition:transform .2s"></i>
+  </div>
+  <div class="pw-detail">
+    <div style="border-top:0.5px solid var(--bd-t);padding:12px 14px 14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+      <div>
+        <div style="font-size:10px;letter-spacing:.07em;color:var(--tx-t);margin-bottom:6px">Anchored in</div>
+        <div style="font-size:12px;font-weight:500;margin-bottom:3px">${p.anchor}</div>
+        <div style="font-size:12px;color:var(--tx-s)">${p.add}</div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.07em;color:var(--tx-t);margin-bottom:6px">Sample sequence</div>
+        ${p.courses.map((x,j)=>`<div style="font-size:11px;color:var(--tx-s);margin-bottom:3px;display:flex;gap:5px"><span style="color:var(--tx-t);min-width:14px;flex-shrink:0">${j+1}.</span>${x}</div>`).join('')}
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.07em;color:var(--tx-t);margin-bottom:6px">Career outcomes</div>
+        <div style="display:flex;flex-direction:column;gap:4px">${p.careers.map(x=>`<span class="badge bz" style="align-self:flex-start">${x}</span>`).join('')}</div>
+      </div>
+    </div>
+  </div>
+</div>`).join('');
+c.querySelectorAll('.pw-card').forEach(card=>{
+  const go=()=>{
+    const open=card.classList.contains('active');
+    c.querySelectorAll('.pw-card').forEach(x=>{x.classList.remove('active');x.querySelector('.pw-detail').classList.remove('open');x.querySelector('.chv').style.transform='rotate(0deg)';x.setAttribute('aria-expanded','false');});
+    if(!open){card.classList.add('active');card.querySelector('.pw-detail').classList.add('open');card.querySelector('.chv').style.transform='rotate(180deg)';card.setAttribute('aria-expanded','true');}
+  };
+  card.addEventListener('click',go);
+  card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')go();});
+});
+</script>
+</body>
+</html>
